@@ -42,7 +42,9 @@ meteorology:
 
 # 时空范围
 scope:
-  stations: all_guokong_beijing   # 北京市全部国控站点，约 30 余个
+  stations: beijing_24            # 2021.01.01 版清单中的北京 24 个国控站，节点集在 4 年内固定
+  station_list_version: "2021.01.01"
+  excluded_note: "北京 2024 年已增至 35 站，新增 11 站因前期数据缺失不入主实验"
   start: "2021-01-01"
   end: "2024-12-31"
   freq: "1h"
