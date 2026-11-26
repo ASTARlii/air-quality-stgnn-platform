@@ -1,0 +1,79 @@
+# 数据与实验配置
+# 说明：所有硬编码路径、时间范围、站点范围集中在此，代码中不得重复定义。
+
+project:
+  name: air-quality-stgnn-platform
+  city: beijing
+
+# 空气质量数据源
+air_quality:
+  primary:
+    name: quotsoft
+    url: "https://quotsoft.net/air/"
+    granularity: hourly
+    level: station          # station 级数据约自 2016 年中后期起提供
+  cross_check:
+    name: resdc
+    url: "https://www.resdc.cn/data.aspx?DATAID=289"
+    require_login: true
+
+# 气象数据源（ERA5-Land，按北京范围裁剪下载）
+meteorology:
+  source: cds
+  dataset: reanalysis-era5-land
+  resolution_deg: 0.1
+  variables:
+    - 2m_temperature          # temp
+    - 2m_dewpoint_temperature # -> rh
+    - 10m_u_component_of_wind # -> ws/wd
+    - 10m_v_component_of_wind
+    - surface_pressure        # pres
+  area: [41.1, 115.4, 39.4, 117.6]   # [N, W, S, E] 北京及周边
+
+# 时空范围
+scope:
+  stations: all_guokong_beijing   # 北京市全部国控站点，约 30 余个
+  start: "2021-01-01"
+  end: "2024-12-31"
+  freq: "1h"
+
+# 数据切分（按自然年边界）
+split:
+  train: ["2021-01-01", "2022-12-31"]
+  valid: ["2023-01-01", "2023-12-31"]
+  test:  ["2024-01-01", "2024-12-31"]
+
+# 特征
+features:
+  pollutants: [pm25, pm10, no2, o3]
+  meteorology: [temp, rh, ws, wd, pres]
+  input_channels: 9       # 4 污染物 + 5 气象
+  input_window_h: 24
+  horizons_h: [1, 3, 6, 12, 24]
+
+# 建模方式：4 个独立单输出模型
+modeling:
+  scheme: single_output_per_pollutant
+  targets: [pm25, pm10, no2, o3]
+
+# 路径（相对于项目根）
+paths:
+  raw: data/raw
+  processed: data/processed
+  runs: runs
+  checkpoints: checkpoints
+  logs: logs
+
+# 关联网络
+network:
+  methods: [transfer_entropy, lagged_correlation]
+  embedding_dim: 2
+  lag_candidates_h: [1, 2, 3, 4]
+  surrogate_test: true
+  fdr_correction: true
+
+# 分级标准
+grading:
+  standard: "GB 3095-2012"
+  level: second           # 二级浓度限值
+  disclaimer: "辅助研判提示，不等同于官方预警"
