@@ -1,0 +1,43 @@
+# 数据与产物
+data/raw/
+data/processed/
+*.csv
+*.parquet
+*.nc
+*.h5
+*.pkl
+
+# 模型权重
+*.pt
+*.pth
+*.ckpt
+checkpoints/
+runs/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Node / 前端
+node_modules/
+dist/
+.vite/
+
+# 环境与密钥
+.env
+*.key
+cdsapirc
+
+# 编辑器
+.vscode/
+.idea/
+.DS_Store
+
+# 工具产物
+.screenshots/
