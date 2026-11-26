@@ -5,13 +5,23 @@ project:
   name: air-quality-stgnn-platform
   city: beijing
 
-# 空气质量数据源
+# 空气质量数据源（2026-11 实测验证）
 air_quality:
   primary:
     name: quotsoft
-    url: "https://quotsoft.net/air/"
+    product: china_sites          # 全国监测点，全 6 项污染物，列名为站点编码
+    url_pattern: "https://quotsoft.net/air/data/china_sites_{date}.csv"
     granularity: hourly
-    level: station          # station 级数据约自 2016 年中后期起提供
+    encoding: utf-8
+    approx_size_per_day_mb: 1.9
+  beijing_fallback:               # 备用：北京站数据，PM2.5/PM10/AQI 与 SO2/NO2/O3/CO 分两个文件
+    - product: beijing_all
+      contains: [pm25, pm10, aqi]
+    - product: beijing_extra
+      contains: [so2, no2, o3, co]
+  station_list:
+    file: data/raw/stations.csv   # 需手动从 quotsoft 首页网盘下载（字段：编码,名称,城市,经度,纬度,对照点）
+    required: true                # china_sites 列名为编码，必须与此表 join 才能得到坐标
   cross_check:
     name: resdc
     url: "https://www.resdc.cn/data.aspx?DATAID=289"
