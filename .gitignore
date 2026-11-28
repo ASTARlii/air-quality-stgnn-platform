@@ -41,3 +41,11 @@ cdsapirc
 
 # 工具产物
 .screenshots/
+.pip-cache/
+
+# 本地训练日志
+logs/
+results/*.log
+
+# 实验结果指标可入库（原始数据仍由 *.csv 规则排除）
+!results/**/*.csv

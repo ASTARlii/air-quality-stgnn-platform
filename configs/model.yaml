@@ -1,0 +1,49 @@
+# 模型与训练配置（Graph WaveNet + 基线）
+# 与 configs/data.yaml 配套：数据/特征/切分在 data.yaml，模型/训练在本文件。
+
+model:
+  name: graph_wavenet
+  n_nodes: 24                  # 北京 24 国控站（含定陵对照点）
+  in_dim: 9                    # 4 污染物 + 5 气象
+  horizon: 24                  # 直接多输出：一次前向出未来 24 小时
+  residual_channels: 32
+  dilation_channels: 32
+  skip_channels: 256
+  end_channels: 512
+  kernel_size: 2
+  blocks: 4
+  layers: 2
+  dropout: 0.3
+  apt_dim: 10                  # 自适应节点嵌入维度（消融对象）
+  use_adaptive_adj: true
+
+train:
+  epochs: 100
+  batch_size: 64
+  lr: 0.001
+  weight_decay: 0.0001
+  grad_clip: 5.0
+  early_stop_patience: 15
+  checkpoint_dir: checkpoints
+  log_dir: logs
+  seed: 42
+  num_seeds: 3                 # 多随机种子重复训练（开题报告 6.1）
+  device: cuda
+  amp: false                   # RTX 4060 8GB 显存够用，先不开混合精度
+
+# 4 个独立单输出模型：每个污染物一个
+single_output_targets:
+  - pm25
+  - pm10
+  - no2
+  - o3
+
+# 基线配置（开题报告 6.2）
+baselines:
+  lstm:
+    hidden: 64
+    num_layers: 2
+    dropout: 0.1
+  stgcn:
+    hidden: 64
+  # ARIMA / XGBoost 走 sklearn，配置待补
