@@ -1,0 +1,15 @@
+{
+  "target": "pm25",
+  "seed": 42,
+  "k": 5,
+  "n_windows": 1000,
+  "n_stations": 23,
+  "mean_d_up": 0.88250848521357,
+  "mean_d_down": 0.7191293135933254,
+  "mean_d_rand": 0.9954905385556434,
+  "ratio_up_over_rand": 0.8865061505195228,
+  "n_up_gt_rand": 8,
+  "p_sign_up_gt_rand": 0.95343017578125,
+  "n_up_gt_down": 11,
+  "p_sign_up_gt_down": 0.6611802577972412
+}

@@ -1,0 +1,46 @@
+{
+  "concurrency": 20,
+  "rounds_per_user": 10,
+  "endpoints": [
+    {
+      "name": "predictions",
+      "concurrency": 20,
+      "n": 200,
+      "errors": 0,
+      "p50_ms": 151.1,
+      "p95_ms": 180.7,
+      "max_ms": 217.1,
+      "throughput_rps": 127.9
+    },
+    {
+      "name": "grading",
+      "concurrency": 20,
+      "n": 200,
+      "errors": 0,
+      "p50_ms": 147.7,
+      "p95_ms": 172.4,
+      "max_ms": 184.2,
+      "throughput_rps": 132.4
+    },
+    {
+      "name": "networks",
+      "concurrency": 20,
+      "n": 200,
+      "errors": 0,
+      "p50_ms": 217.4,
+      "p95_ms": 300.3,
+      "max_ms": 320.7,
+      "throughput_rps": 88.3
+    },
+    {
+      "name": "key-stations",
+      "concurrency": 20,
+      "n": 200,
+      "errors": 0,
+      "p50_ms": 176.0,
+      "p95_ms": 200.7,
+      "max_ms": 216.1,
+      "throughput_rps": 111.3
+    }
+  ]
+}

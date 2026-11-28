@@ -1,0 +1,16 @@
+{
+  "target": "o3",
+  "seed": 42,
+  "k": 5,
+  "adj_source": "network",
+  "n_windows": 1000,
+  "n_stations": 24,
+  "mean_d_up": 6.76089874903361,
+  "mean_d_down": 5.134464581807454,
+  "mean_d_rand": 5.355673726399739,
+  "ratio_up_over_rand": 1.2623806255610925,
+  "n_up_gt_rand": 17,
+  "p_sign_up_gt_rand": 0.03195732831954956,
+  "n_up_gt_down": 21,
+  "p_sign_up_gt_down": 0.0001385807991027832
+}

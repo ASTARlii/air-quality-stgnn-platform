@@ -1,0 +1,116 @@
+{
+  "n_cases": 13,
+  "n_pass": 13,
+  "n_na": 0,
+  "pass_rate": 1.0,
+  "cases": [
+    {
+      "name": "TC-HEALTH /health",
+      "status": "PASS",
+      "pass": true,
+      "detail": "status=200"
+    },
+    {
+      "name": "TC-STATIONS /stations",
+      "status": "PASS",
+      "pass": true,
+      "detail": "status=200, n=24"
+    },
+    {
+      "name": "TC-PRED-001 合法预测",
+      "status": "PASS",
+      "pass": true,
+      "detail": "status=200, horizons=[1, 3, 6, 12, 24]"
+    },
+    {
+      "name": "TC-PRED-002 as_of 驱动窗口（含不足24h）",
+      "status": "PASS",
+      "pass": true,
+      "detail": "early_status=400, windows_differ=True"
+    },
+    {
+      "name": "TC-PRED-003 非法污染物枚举",
+      "status": "PASS",
+      "pass": true,
+      "detail": "status=400（期望 400/422）"
+    },
+    {
+      "name": "TC-GRADING 分级",
+      "status": "PASS",
+      "pass": true,
+      "detail": "status=200, level=2"
+    },
+    {
+      "name": "TC-NET 关联网络（缓存命中）",
+      "status": "PASS",
+      "pass": true,
+      "detail": "status=200, edges=552"
+    },
+    {
+      "name": "TC-TRACE 污染溯源",
+      "status": "PASS",
+      "pass": true,
+      "detail": "status=200, candidates=5"
+    },
+    {
+      "name": "TC-KEY 关键站点 Top-10",
+      "status": "PASS",
+      "pass": true,
+      "detail": "status=200, n=10"
+    },
+    {
+      "name": "TC-TASKS 任务列表",
+      "status": "PASS",
+      "pass": true,
+      "detail": "status=200, total=0"
+    },
+    {
+      "name": "TC-DATASETS 数据集元信息",
+      "status": "PASS",
+      "pass": true,
+      "detail": "status=200, stations=24"
+    },
+    {
+      "name": "TC-MODELS 模型版本",
+      "status": "PASS",
+      "pass": true,
+      "detail": "status=200, loaded=['pm25_seed42']"
+    },
+    {
+      "name": "TC-NET-001 重算幂等",
+      "status": "PASS",
+      "pass": true,
+      "detail": "task_key=076c2acd89ea7680"
+    }
+  ],
+  "perf": [
+    {
+      "name": "predictions",
+      "n": 20,
+      "p50_ms": 27.1,
+      "p95_ms": 43.3,
+      "max_ms": 45.1
+    },
+    {
+      "name": "grading",
+      "n": 30,
+      "p50_ms": 23.9,
+      "p95_ms": 34.8,
+      "max_ms": 38.5
+    },
+    {
+      "name": "networks",
+      "n": 20,
+      "p50_ms": 29.4,
+      "p95_ms": 31.9,
+      "max_ms": 32.2
+    },
+    {
+      "name": "key-stations",
+      "n": 20,
+      "p50_ms": 12.9,
+      "p95_ms": 33.3,
+      "max_ms": 36.9
+    }
+  ]
+}
