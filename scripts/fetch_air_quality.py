@@ -24,8 +24,10 @@
 from __future__ import annotations
 
 import argparse
+import random
 import subprocess
 import sys
+import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta
@@ -37,7 +39,9 @@ USER_AGENT = (
     "(KHTML, like Gecko) Chrome/120.0 Safari/537.36"
 )
 MIN_VALID_BYTES = 1024  # 小于此值视为错误页
-RETRIES = 3
+# quotsoft 对单 IP 有突发限流（429），停一会即恢复，故用退避+抖动重试
+BACKOFF_SECONDS = [2, 5, 10, 20, 40, 60, 90, 120]
+SUCCESS_DELAY = 0.3  # 每次成功后短暂停顿，平滑整体请求速率
 
 
 @dataclass
@@ -94,10 +98,17 @@ def fetch_one(product: str, day: date, out_dir: Path, force: bool) -> Result:
             return Result(day, "skip", size)
 
     last = ("fail", 0, "未执行")
-    for _ in range(RETRIES):
+    max_attempts = len(BACKOFF_SECONDS) + 1
+    for attempt in range(max_attempts):
         last = download(build_url(product, day), dest)
-        if last[0] in ("ok", "missing"):
+        if last[0] == "ok":
+            time.sleep(SUCCESS_DELAY)
             break
+        if last[0] == "missing":
+            break
+        # fail：429/5xx/网络错误，退避（带抖动）后重试，避免惊群同时重打
+        wait = BACKOFF_SECONDS[min(attempt, len(BACKOFF_SECONDS) - 1)]
+        time.sleep(wait * (0.5 + random.random()))
     return Result(day, last[0], last[1], last[2])
 
 
